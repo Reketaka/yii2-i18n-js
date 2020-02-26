@@ -84,6 +84,11 @@ class I18nJs extends BaseObject
     {
         $basePaths = [];
         foreach (Yii::$app->i18n->translations as $category => $translation) {
+
+            if(!($translation instanceof PhpMessageSource)){
+                continue;
+            }
+            
             if ($category !== 'yii') {
                 if (is_array($translation)) {
                     $basePaths[] =
