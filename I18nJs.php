@@ -2,11 +2,17 @@
 
 namespace reketaka\yii2I18nJs;
 
+use reketaka\helps\common\helpers\Bh;
 use w3lifer\phpHelper\PhpHelper;
 use Yii;
 use yii\base\BaseObject;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\View;
+use function array_filter;
+use function array_map;
+use function basename;
+use function is_array;
 
 /**
  * @see https://github.com/yiisoft/yii2/issues/274
@@ -48,6 +54,7 @@ class I18nJs extends BaseObject
      */
     private $currentModificationTime;
 
+    public $fileMaps = [];
     /**
      * @inheritdoc
      */
@@ -88,8 +95,14 @@ class I18nJs extends BaseObject
             if(!($translation instanceof PhpMessageSource)){
                 continue;
             }
-            
+
+            if(!$translation->generateJs){
+                continue;
+            }
+
             if ($category !== 'yii') {
+
+
                 if (is_array($translation)) {
                     $basePaths[] =
                         isset($translation['basePath'])
@@ -99,6 +112,7 @@ class I18nJs extends BaseObject
                     $basePaths[] =
                         realpath(Yii::getAlias($translation->basePath));
                 }
+
             }
         }
         return array_unique($basePaths);
@@ -128,6 +142,16 @@ class I18nJs extends BaseObject
                 }
             }
         }
+
+        if($this->fileMaps){
+            $filenames = array_filter($filenames, function($m){
+                $filename = basename($m);
+
+                return in_array($filename, $this->fileMaps);
+
+            });
+        }
+
         return $filenames;
     }
 
