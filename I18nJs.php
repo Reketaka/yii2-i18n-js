@@ -1,6 +1,6 @@
 <?php
 
-namespace w3lifer\yii2;
+namespace reketaka\yii2I18nJs;
 
 use w3lifer\phpHelper\PhpHelper;
 use Yii;

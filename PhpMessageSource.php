@@ -1,6 +1,6 @@
 <?php
 
-namespace w3lifer\yii2;
+namespace reketaka\yii2I18nJs;
 
 class PhpMessageSource extends \yii\i18n\PhpMessageSource{
 
